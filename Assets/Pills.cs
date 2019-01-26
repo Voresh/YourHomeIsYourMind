@@ -4,7 +4,7 @@ public class Pills : MonoBehaviour, IInteractable
 {
     public void Interact()
     {
-        ProgressController.Instance.ChangeProgress(1);
+        ProgressController.Instance.PillCollected();
         Destroy(gameObject);
     }
 }

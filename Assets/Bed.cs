@@ -8,6 +8,6 @@ public class Bed : MonoBehaviour, IInteractable
     public void Interact()
     {
         _animator.Play("interacted");
-        ProgressController.Instance.ChangeHealth(-1);
+        ProgressController.Instance.DamageReceived(-1);
     }
 }

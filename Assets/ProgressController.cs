@@ -14,14 +14,16 @@ public class ProgressController: Singletone<ProgressController>
         _pillsCountVisual.text = "x" + 0;
     }
     
-    public void ChangeProgress(int difference)
+    public void PillCollected()
     {
-        _pillsCount += difference;
+        SpeechController.Instance.PositiveAction();
+        _pillsCount += 1;
         _pillsCountVisual.text = "x" + _pillsCount;
     }
 
-    public void ChangeHealth(int difference)
+    public void DamageReceived(int difference)
     {
+        SpeechController.Instance.NegativeAction();
         _healthAmount += difference;
         if (_healthAmount < 0)
         {
