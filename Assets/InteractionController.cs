@@ -60,7 +60,7 @@ public class InteractionController : Singletone<InteractionController>
         if (!Input.GetMouseButtonDown(0)) 
             return;
         
-        var interactable = highlightedTransform.GetComponent<IInteractable>();
+        var interactable = highlightedTransform.GetComponent<Interactable>();
         
         var menuTransform = interactable?.MenuTransform;
         if (menuTransform == null)
@@ -76,11 +76,13 @@ public class InteractionController : Singletone<InteractionController>
             {
                 action.Item1?.Invoke();
                 _interactionWidget.SetActive(false);
+                InteractionEnabled = true;
             });
             button.GetComponentInChildren<TextMeshProUGUI>(true).text = action.Item2;
         }
         WorldUIController.Instance.MoveToWorldTransform(menuTransform, _interactionWidget.GetComponent<RectTransform>());
         _interactionWidget.SetActive(true);
+        InteractionEnabled = false;
     }
 
     private void UpdateCursor(bool highlighted)

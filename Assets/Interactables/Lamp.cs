@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lamp : MonoBehaviour, IInteractable
+public class Lamp : Interactable
 {
     [SerializeField]
     private GameObject _enabledVisual;
     [SerializeField]
     private GameObject _enabledPills;
     private bool _state;
-    [SerializeField] 
-    private Transform _menuTransform;
 
     private void Awake()
     {
@@ -19,10 +17,9 @@ public class Lamp : MonoBehaviour, IInteractable
             _enabledPills.SetActive(false);
     }
 
-    public Transform MenuTransform => _menuTransform;
-    public List<Tuple<Action, string>> Actions => new List<Tuple<Action, string>>
+    public override List<Tuple<Action, string>> Actions => new List<Tuple<Action, string>>
     {
-        new Tuple<Action, string>(Switch, "turn on/off"),
+        new Tuple<Action, string>(Switch, "remove"),
         new Tuple<Action, string>(null, "exit")
     };
 
