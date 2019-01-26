@@ -17,8 +17,11 @@ public class SpeechController : Singletone<SpeechController>
 	private GameObject _speechWidgetRoot;
 	[SerializeField] 
 	private TextMeshProUGUI _speechText;
-
+	[SerializeField] 
+	private int _passiveActivateTimeInSeconds;
+	
 	private Coroutine _phraseTimer;
+	private Coroutine _passiveTimer;
 	
 	[SerializeField]
 	private CanvasScaler _canvas;
@@ -26,6 +29,7 @@ public class SpeechController : Singletone<SpeechController>
 	private void Start()
 	{
 		_speechWidgetRoot.SetActive(false);
+		RestartPassiveTimer();
 	}
 
 	public void PositiveAction()
@@ -38,11 +42,26 @@ public class SpeechController : Singletone<SpeechController>
 		StartPhraseShow(_negativeAction);
 	}
 
+	private void RestartPassiveTimer()
+	{
+		if (_passiveTimer != null)
+			StopCoroutine(_passiveTimer);
+		_passiveTimer = StartCoroutine(PassiveTimer());
+	}
+
+	private IEnumerator PassiveTimer()
+	{
+		yield return new WaitForSeconds(_passiveActivateTimeInSeconds);
+		StartPhraseShow(_passivePhrases);
+		_passiveTimer = null;
+	}
+
 	private void StartPhraseShow(string[] pool)
 	{
 		if (_phraseTimer != null)
 			StopCoroutine(_phraseTimer);
 		_phraseTimer = StartCoroutine(ShowPhraseTimed(GetRandomPhrase(pool)));
+		RestartPassiveTimer();
 	}
 	
 	private string GetRandomPhrase(string[] pool)
