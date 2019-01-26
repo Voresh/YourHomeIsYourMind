@@ -12,7 +12,7 @@ public class Pills : Interactable
 
     private void Take()
     {
-        ProgressController.Instance.PillsChanged(1);
+        ProgressController.Instance.TranqChanged(1);
         Destroy(gameObject);
     }
 }

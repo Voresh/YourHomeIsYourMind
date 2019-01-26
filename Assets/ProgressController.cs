@@ -6,8 +6,11 @@ using UnityEngine.UI;
 public class ProgressController: Singletone<ProgressController>
 {
     [SerializeField] 
-    private TextMeshProUGUI _pillsCountVisual;
-    private int _pillsCount;
+    private TextMeshProUGUI _adCountVisual;
+    private int _adCount;
+    [SerializeField] 
+    private TextMeshProUGUI _tranqCountVisual;
+    private int _tranqCount;
     [SerializeField] 
     private int _insanityAmount = 1500;
     [SerializeField] 
@@ -17,16 +20,24 @@ public class ProgressController: Singletone<ProgressController>
 
     public void Start()
     {
-        _pillsCountVisual.text = "x" + 0;
+        _tranqCountVisual.text = "x" + 0;
+        _adCountVisual.text = "x" + 0;
         _healthFill.fillAmount = (float) _currentInsanity / _insanityAmount;
     }
     
-    public void PillsChanged(int difference)
+    public void TranqChanged(int difference)
     {
-        _pillsCount += difference;
-        _pillsCountVisual.text = "x" + _pillsCount;
+        _tranqCount += difference;
+        _tranqCountVisual.text = "x" + _tranqCount;
         SpeechController.Instance.PositiveAction();
-        PillsController.Instance.PillsAmountChanged(_pillsCount);
+        TranqController.Instance.TranqAmountChanged(_tranqCount);
+    }
+    
+    public void ADChanged(int difference)
+    {
+        _adCount += difference;
+        _adCountVisual.text = "x" + _adCount;
+        SpeechController.Instance.PositiveAction();
     }
 
     public void ChangeInsanity(int difference)
@@ -35,10 +46,15 @@ public class ProgressController: Singletone<ProgressController>
         _currentInsanity += difference;
         StateObservable.Instance.ChangeState(_currentInsanity, _insanityAmount);
         _healthFill.fillAmount = (float) _currentInsanity / _insanityAmount;
-        if (_currentInsanity <= 0)
+        if (_currentInsanity >= _insanityAmount)
         {
             InteractionController.Instance.InteractionEnabled = false;
             GameOverController.Instance.gameObject.SetActive(true);
+        }
+        else if (_currentInsanity <= 0)
+        {
+            InteractionController.Instance.InteractionEnabled = false;
+            WinController.Instance.gameObject.SetActive(true);
         }
     }
 }
