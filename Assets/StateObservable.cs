@@ -1,6 +1,5 @@
 ﻿public class StateObservable : Singletone<StateObservable>
 {
-	private int _currentState;
 	private StateObserver[] _stateObservers;
 
 	private void Start()
@@ -8,12 +7,18 @@
 		_stateObservers = FindObjectsOfType<StateObserver>();
 	}
 
-	public void ChangeState(int difference)
+	public void ChangeState(int current, int max)
 	{
-		_currentState += difference;
+		int state;
+		if (current < max / 3f)
+			state = 0;
+		else if (current < max * 2 / 3f)
+			state = 1;
+		else
+			state = 2;
 		foreach (var observer in _stateObservers)
 		{
-			observer.ChangeState(_currentState);
+			observer.ChangeState(state);
 		}
 	}
 }

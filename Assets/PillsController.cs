@@ -11,7 +11,7 @@ public class PillsController : Singletone<PillsController>
 		_useButton.onClick.AddListener(() =>
 		{
 			ProgressController.Instance.PillsChanged(-1);
-			ProgressController.Instance.HealthChanged(1);
+			ProgressController.Instance.ChangeInsanity(1);
 		});
 		_useButton.gameObject.SetActive(false);
 	}
