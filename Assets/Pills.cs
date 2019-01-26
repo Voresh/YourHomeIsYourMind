@@ -16,7 +16,7 @@ public class Pills : MonoBehaviour, IInteractable
 
     private void Take()
     {
-        ProgressController.Instance.PillCollected();
+        ProgressController.Instance.PillsChanged(1);
         Destroy(gameObject);
     }
 }

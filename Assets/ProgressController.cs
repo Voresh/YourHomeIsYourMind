@@ -21,17 +21,19 @@ public class ProgressController: Singletone<ProgressController>
         _currentHealth = _healthAmount;
     }
     
-    public void PillCollected()
+    public void PillsChanged(int difference)
     {
-        SpeechController.Instance.PositiveAction();
-        _pillsCount += 1;
+        _pillsCount += difference;
         _pillsCountVisual.text = "x" + _pillsCount;
+        SpeechController.Instance.PositiveAction();
+        PillsController.Instance.PillsAmountChanged(_pillsCount);
     }
 
-    public void DamageReceived(int difference)
+    public void HealthChanged(int difference)
     {
         SpeechController.Instance.NegativeAction();
         _currentHealth += difference;
+        StateObservable.Instance.ChangeState(-difference);
         _healthFill.fillAmount = (float) _currentHealth / _healthAmount;
         if (_currentHealth <= 0)
         {

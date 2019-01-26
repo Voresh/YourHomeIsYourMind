@@ -19,6 +19,6 @@ public class Bed : MonoBehaviour, IInteractable
     private void Sleep()
     {
         _animator.Play("interacted");
-        ProgressController.Instance.DamageReceived(-1);
+        ProgressController.Instance.HealthChanged(-1);
     }
 }
