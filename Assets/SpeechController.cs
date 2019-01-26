@@ -22,9 +22,6 @@ public class SpeechController : Singletone<SpeechController>
 	
 	private Coroutine _phraseTimer;
 	private Coroutine _passiveTimer;
-	
-	[SerializeField]
-	private CanvasScaler _canvas;
 
 	private void Start()
 	{
@@ -81,8 +78,6 @@ public class SpeechController : Singletone<SpeechController>
 	
 	private void Update()
 	{
-		var screenPoint = Camera.main.WorldToScreenPoint(_speechWorldPosition.transform.position);
-		var scaleReference = new Vector2(_canvas.referenceResolution.x / Screen.width, _canvas.referenceResolution.y / Screen.height);
-		_speechWidgetRoot.GetComponent<RectTransform>().anchoredPosition = Vector2.Scale(screenPoint, scaleReference);;
+		WorldUIController.Instance.MoveToWorldTransform(_speechWorldPosition.transform, _speechWidgetRoot.GetComponent<RectTransform>());
 	}
 }

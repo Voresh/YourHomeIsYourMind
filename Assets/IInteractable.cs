@@ -1,4 +1,10 @@
-﻿public interface IInteractable
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public interface IInteractable
 {
-    void Interact();
+    Transform MenuTransform { get; }
+
+    List<Tuple<Action, string>> Actions { get; }
 }

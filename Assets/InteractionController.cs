@@ -1,10 +1,16 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class InteractionController : Singletone<InteractionController>
 {
     private IHighlightable _lastHighlightable;
     [SerializeField] 
     private Texture2D _highlightCursorTexture;
+    [SerializeField] 
+    private GameObject _interactionWidget;
+    [SerializeField] 
+    private GameObject _actionButtonPrefab;
 
     private bool _interactionEnabled = true;
 
@@ -17,7 +23,12 @@ public class InteractionController : Singletone<InteractionController>
             _interactionEnabled = value;
         }
     }
-    
+
+    private void Start()
+    {
+        _interactionWidget.SetActive(false);
+    }
+
     private void Update()
     {
         if (!_interactionEnabled)
@@ -46,7 +57,28 @@ public class InteractionController : Singletone<InteractionController>
     {
         if (!Input.GetMouseButtonDown(0)) 
             return;
-        highlightedTransform.GetComponent<IInteractable>()?.Interact();
+        
+        var interactable = highlightedTransform.GetComponent<IInteractable>();
+        
+        var menuTransform = interactable?.MenuTransform;
+        if (menuTransform == null)
+            return;
+        
+        foreach (Transform child in _interactionWidget.transform) {
+            Destroy(child.gameObject);
+        }
+        foreach (var action in interactable.Actions)
+        {
+            var button = Instantiate(_actionButtonPrefab, _interactionWidget.transform);
+            button.GetComponentInChildren<Button>(true).onClick.AddListener(() =>
+            {
+                action.Item1?.Invoke();
+                _interactionWidget.SetActive(false);
+            });
+            button.GetComponentInChildren<TextMeshProUGUI>(true).text = action.Item2;
+        }
+        WorldUIController.Instance.MoveToWorldTransform(menuTransform, _interactionWidget.GetComponent<RectTransform>());
+        _interactionWidget.SetActive(true);
     }
 
     private void UpdateCursor(bool highlighted)

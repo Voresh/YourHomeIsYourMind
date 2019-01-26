@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Lamp : MonoBehaviour, IInteractable
 {
@@ -7,6 +9,8 @@ public class Lamp : MonoBehaviour, IInteractable
     [SerializeField]
     private GameObject _enabledPills;
     private bool _state;
+    [SerializeField] 
+    private Transform _menuTransform;
 
     private void Awake()
     {
@@ -15,7 +19,14 @@ public class Lamp : MonoBehaviour, IInteractable
             _enabledPills.SetActive(false);
     }
 
-    public void Interact()
+    public Transform MenuTransform => _menuTransform;
+    public List<Tuple<Action, string>> Actions => new List<Tuple<Action, string>>
+    {
+        new Tuple<Action, string>(Switch, "turn on/off"),
+        new Tuple<Action, string>(null, "exit")
+    };
+
+    private void Switch()
     {
         _state = !_state;
         _enabledVisual.SetActive(_state);
