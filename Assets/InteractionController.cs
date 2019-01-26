@@ -37,6 +37,8 @@ public class InteractionController : Singletone<InteractionController>
         var highlightable = transformUnderCoursor?.GetComponent<IHighlightable>();
         if (highlightable != null)
         {
+            if (_lastHighlightable != null)
+                _lastHighlightable.CancelHighlight();
             highlightable.Highlight();
             _lastHighlightable = highlightable;
             UpdateCursor(true);
