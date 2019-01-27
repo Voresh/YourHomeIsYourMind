@@ -11,7 +11,7 @@ public class TranqController : Singletone<TranqController>
 		_useButton.onClick.AddListener(() =>
 		{
 			ProgressController.Instance.TranqChanged(-1);
-			ProgressController.Instance.ChangeInsanity(1);
+			ProgressController.Instance.ChangeInsanity(-100);
 		});
 		_useButton.gameObject.SetActive(false);
 	}

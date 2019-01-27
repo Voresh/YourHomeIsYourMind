@@ -13,7 +13,8 @@ public class InteractionController : Singletone<InteractionController>
     private GameObject _actionButtonPrefab;
 
     private bool _interactionEnabled = true;
-
+    private Camera _camera;
+    
     public bool InteractionEnabled
     {
         set
@@ -27,13 +28,14 @@ public class InteractionController : Singletone<InteractionController>
     private void Start()
     {
         _interactionWidget.SetActive(false);
+        _camera = Camera.main;
     }
 
     private void Update()
     {
         if (!_interactionEnabled)
             return;
-        var transformUnderCoursor = Camera.main.GetTransformUnderCoursor2D();
+        var transformUnderCoursor = _camera.GetTransformUnderCoursor2D();
         var highlightable = transformUnderCoursor?.GetComponent<IHighlightable>();
         if (highlightable != null)
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pills : Interactable
+public class Tranq : Interactable
 {    
     public override List<Tuple<Action, string>> Actions => new List<Tuple<Action, string>>
     {

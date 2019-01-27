@@ -4,14 +4,18 @@ public class ScaleHighlight : MonoBehaviour, IHighlightable
 {
 	[SerializeField]
 	private float _factor = 1.03f;
+	[SerializeField]
+	private Transform _target;
 	
 	public void Highlight()
 	{
-		transform.localScale = Vector3.one * _factor;
+		var target = _target != null ? _target : transform;
+		target.localScale = Vector3.one * _factor;
 	}
 
 	public void CancelHighlight()
 	{
-		transform.localScale = Vector3.one;
+		var target = _target != null ? _target : transform;
+		target.localScale = Vector3.one;
 	}
 }

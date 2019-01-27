@@ -16,13 +16,14 @@ public class ProgressController: Singletone<ProgressController>
     [SerializeField] 
     private Image _healthFill;
 
-    private int _currentInsanity = 600;
+    private int _currentInsanity = 400;
 
     public void Start()
     {
         _tranqCountVisual.text = "x" + 0;
         _adCountVisual.text = "x" + 0;
         _healthFill.fillAmount = (float) _currentInsanity / _insanityAmount;
+        //StateObservable.Instance.ChangeState(_currentInsanity, _insanityAmount);
     }
     
     public void TranqChanged(int difference)
@@ -38,6 +39,11 @@ public class ProgressController: Singletone<ProgressController>
         _adCount += difference;
         _adCountVisual.text = "x" + _adCount;
         SpeechController.Instance.PositiveAction();
+        if (_adCount >= 3)
+        {
+            InteractionController.Instance.InteractionEnabled = false;
+            WinController.Instance.gameObject.SetActive(true);
+        }
     }
 
     public void ChangeInsanity(int difference)
@@ -50,11 +56,6 @@ public class ProgressController: Singletone<ProgressController>
         {
             InteractionController.Instance.InteractionEnabled = false;
             GameOverController.Instance.gameObject.SetActive(true);
-        }
-        else if (_currentInsanity <= 0)
-        {
-            InteractionController.Instance.InteractionEnabled = false;
-            WinController.Instance.gameObject.SetActive(true);
         }
     }
 }
