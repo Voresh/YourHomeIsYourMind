@@ -16,7 +16,9 @@ public class ProgressController: Singletone<ProgressController>
     private int _insanityAmount = 1500;
     [SerializeField] 
     private Image _healthFill;
-
+    [SerializeField] 
+    private int _timerInsanityAmount = 1;
+    
     private int _currentInsanity = 400;
 
     public void Start()
@@ -33,7 +35,7 @@ public class ProgressController: Singletone<ProgressController>
         while (true)
         {
             yield return new WaitForSecondsRealtime(0.1f);
-            ChangeInsanity(1, false);
+            ChangeInsanity(_timerInsanityAmount, false);
         }
     }
     
