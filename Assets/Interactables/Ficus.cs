@@ -6,6 +6,10 @@ public class Ficus : Interactable
 {
 	[SerializeField] 
 	private Transform _dropPosition;
+	[SerializeField] 
+	private SpriteRenderer _spriteRendereer;
+	[SerializeField] 
+	private Sprite _broken;
 
 	public override List<Tuple<Action, string>> Actions => new List<Tuple<Action, string>>
 	{
@@ -18,6 +22,7 @@ public class Ficus : Interactable
 	{
 		ProgressController.Instance.ChangeInsanity(-100);
 		PillsCreator.CreateAD(_dropPosition);
+		_spriteRendereer.sprite = _broken;
 	}
 
 	private void Water()

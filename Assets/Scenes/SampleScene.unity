@@ -2181,6 +2181,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuTransform: {fileID: 437816186}
   _dropPosition: {fileID: 830031002}
+  _spriteRendereer: {fileID: 875463903}
+  _broken: {fileID: 21300000, guid: c5656f1020d8dc14aa5c4c28ecb200e2, type: 3}
 --- !u!114 &875463906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4701,6 +4703,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuTransform: {fileID: 2066681141}
   _dropPosition: {fileID: 1376515588}
+  _spriteRendereer: {fileID: 1493660415}
+  _broken: {fileID: 21300000, guid: 7b6e8f3210717e346a5b3c4ddc20f4ec, type: 3}
 --- !u!1 &1566666180
 GameObject:
   m_ObjectHideFlags: 0
