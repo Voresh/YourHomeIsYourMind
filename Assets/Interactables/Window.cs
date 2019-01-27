@@ -6,6 +6,12 @@ public class Window : Interactable
 {
 	[SerializeField]
 	private Transform _dropPosition;
+	[SerializeField] 
+	private SpriteRenderer _spriteRendereer;
+	[SerializeField] 
+	private Sprite _opened;
+	[SerializeField] 
+	private Sprite _broken;
 
 	private void Awake()
 	{
@@ -22,11 +28,13 @@ public class Window : Interactable
 	{
 		ProgressController.Instance.ChangeInsanity(100);
 		PillsCreator.CreateAD(_dropPosition);
+		_spriteRendereer.sprite = _broken;
 	}
 
 	private void Open()
 	{
 		ProgressController.Instance.ChangeInsanity(-100);
+		_spriteRendereer.sprite = _opened;
 	}
 }
 	
