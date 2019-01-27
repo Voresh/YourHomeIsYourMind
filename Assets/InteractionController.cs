@@ -43,12 +43,12 @@ public class InteractionController : Singletone<InteractionController>
                 _lastHighlightable.CancelHighlight();
             highlightable.Highlight();
             _lastHighlightable = highlightable;
-            UpdateCursor(true);
+            UpdateCursor(transformUnderCoursor, true);
             CheckInteraction(transformUnderCoursor);
         }
         else
         {
-            UpdateCursor(false);
+            UpdateCursor(null, false);
             if (_lastHighlightable != null)
             {
                 _lastHighlightable.CancelHighlight();
@@ -63,6 +63,9 @@ public class InteractionController : Singletone<InteractionController>
             return;
         
         var interactable = highlightedTransform.GetComponent<Interactable>();
+
+        if (!interactable.Active)
+            return;
         
         var menuTransform = interactable?.MenuTransform;
         if (menuTransform == null)
@@ -76,8 +79,15 @@ public class InteractionController : Singletone<InteractionController>
             var button = Instantiate(_actionButtonPrefab, _interactionWidget.transform);
             button.GetComponentInChildren<Button>(true).onClick.AddListener(() =>
             {
+                if (action.Item1 == null)
+                {
+                    _interactionWidget.SetActive(false);
+                    InteractionEnabled = true;
+                    return;
+                }
                 action.Item1?.Invoke();
                 _interactionWidget.SetActive(false);
+                interactable.Active = false;
                 InteractionEnabled = true;
             });
             button.GetComponentInChildren<TextMeshProUGUI>(true).text = action.Item2;
@@ -87,8 +97,9 @@ public class InteractionController : Singletone<InteractionController>
         InteractionEnabled = false;
     }
 
-    private void UpdateCursor(bool highlighted)
+    private void UpdateCursor(Transform transformUnderCoursor, bool highlighted)
     {
-        Cursor.SetCursor(highlighted ? _highlightCursorTexture : null, new Vector2(13, 16), CursorMode.ForceSoftware);
+        var interactable = transformUnderCoursor?.GetComponent<Interactable>();
+        Cursor.SetCursor(highlighted && interactable != null && interactable.Active ? _highlightCursorTexture : null, new Vector2(13, 16), CursorMode.ForceSoftware);
     }
 }

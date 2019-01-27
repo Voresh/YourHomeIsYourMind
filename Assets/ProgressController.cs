@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,16 @@ public class ProgressController: Singletone<ProgressController>
         _adCountVisual.text = "x" + 0;
         _healthFill.fillAmount = (float) _currentInsanity / _insanityAmount;
         //StateObservable.Instance.ChangeState(_currentInsanity, _insanityAmount);
+        StartCoroutine(InsanityTimer());
+    }
+
+    private IEnumerator InsanityTimer()
+    {
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(0.1f);
+            ChangeInsanity(1, false);
+        }
     }
     
     public void TranqChanged(int difference)
@@ -46,9 +57,10 @@ public class ProgressController: Singletone<ProgressController>
         }
     }
 
-    public void ChangeInsanity(int difference)
+    public void ChangeInsanity(int difference, bool byPlayer = true)
     {
-        SpeechController.Instance.NegativeAction();
+        if (byPlayer)
+            SpeechController.Instance.NegativeAction();
         _currentInsanity += difference;
         StateObservable.Instance.ChangeState(_currentInsanity, _insanityAmount);
         _healthFill.fillAmount = (float) _currentInsanity / _insanityAmount;

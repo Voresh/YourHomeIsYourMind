@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Window : Interactable
 {
+	[SerializeField]
+	private Transform _dropPosition;
+
 	private void Awake()
 	{
 	}
@@ -19,6 +21,7 @@ public class Window : Interactable
 	private void Break()
 	{
 		ProgressController.Instance.ChangeInsanity(100);
+		PillsCreator.CreateAD(_dropPosition);
 	}
 
 	private void Open()

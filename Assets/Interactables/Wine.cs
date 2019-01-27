@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Wine : Interactable
 {
+	[SerializeField]
+	private Transform _dropPosition;
+
 	public override List<Tuple<Action, string>> Actions => new List<Tuple<Action, string>>
 	{
 		new Tuple<Action, string>(Break, "break"),
@@ -18,5 +22,6 @@ public class Wine : Interactable
 	private void Break()
 	{
 		ProgressController.Instance.ChangeInsanity(+100);
+		PillsCreator.CreateAD(_dropPosition);
 	}
 }
